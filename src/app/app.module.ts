@@ -7,11 +7,13 @@ import { mockBackendProvider } from './helpers/mock-backend';
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
 import { AssetService } from './services/asset.service';
+import { LogService } from './services/log.service';
+import { LogProviderService } from './services/log-provider.service';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpClientModule],
   declarations: [ AppComponent, HelloComponent],
   bootstrap:    [ AppComponent ],
-  providers: [AssetService, mockBackendProvider]
+  providers: [AssetService, LogService, LogProviderService, mockBackendProvider]
 })
 export class AppModule { }
