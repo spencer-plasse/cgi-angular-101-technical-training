@@ -1,0 +1,51 @@
+<form class="form-inline justify-content-end mt-2">
+    <div class="form-group mr-sm-2">
+        <select name="filterAttribute" class="custom-select mr-sm-2" (change)="loadUsers()" [(ngModel)]="attribute">
+            <option value="assetTagId">Tag ID</option>
+            <option value="assetType">Asset Type</option>
+            <option value="description">Description</option>
+            <option value="dateAdded">Date Added</option>
+            <option value="assignedTo" *ngIf="!filteredUser">Assigned To</option>
+            <option value="retired">Retired</option>
+            <option value="dateRetired">Date Retired</option>
+        </select>
+    
+        <ng-container [ngSwitch]="attribute">
+            <select *ngSwitchCase="'assetTagId'" name="filterValue" class="custom-select mr-sm-2" [(ngModel)]="value"
+                required>
+                <option *ngFor="let asset of assets">{{ asset.assetTagId }}</option>
+            </select>
+
+            <select *ngSwitchCase="'assetType'" name="filterValue" class="custom-select mr-sm-2" [(ngModel)]="value">
+                <option>Desktop</option>
+                <option>Laptop</option>
+                <option>Display</option>
+                <option>Phone</option>
+                <option>External Hard Drive</option>
+                <option>Other</option>
+            </select>
+
+            <input *ngSwitchCase="'description'" name="filterValue" type="text" class="form-control" 
+                placeholder="Type description..." required [(ngModel)]="value" />
+
+            <input *ngSwitchCase="'dateAdded'" name="filterValue" type="date" class="form-control"
+                required [(ngModel)]="value" />
+
+            <select *ngSwitchCase="'assignedTo'" name="filterValue" class="custom-select mr-sm-2" [(ngModel)]="value"
+                required>
+                <option *ngFor="let user of userList">{{ user }}</option>
+            </select>
+            
+            <select *ngSwitchCase="'retired'" name="filterValue" class="custom-select mr-sm-2" [(ngModel)]="value">
+                <option>True</option>
+                <option>False</option>
+            </select>
+
+            <input *ngSwitchCase="'dateRetired'" name="filterValue" type="date" class="form-control"
+                required [(ngModel)]="value" />
+        </ng-container>
+    </div>
+    
+    <button type="button" class="btn btn-success mr-sm-2" (click)="filterAssets()">Filter</button>
+    <button type="button" class="btn btn-danger mr-sm-2" (click)="clearFilter()">Clear Filter</button>
+</form>

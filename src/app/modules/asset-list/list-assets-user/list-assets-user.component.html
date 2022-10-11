@@ -1,0 +1,4 @@
+<app-asset-filter (filterEvent)="filterAssets($event)" [assets]="assets" [filteredUser]="true"></app-asset-filter>
+
+<h1 class="text-center">Assets assigned to <span class="text-danger">user {{ user }}</span></h1>
+<app-asset-list [assets]="assets"></app-asset-list>
