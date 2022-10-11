@@ -1,10 +1,2 @@
-<hello name="{{ name }}"></hello>
-<button (click)="addAssetDemo()">Add Asset</button>
-<h1>Assets:</h1>
-<div *ngIf="assets">
-  <ul >
-    <li *ngFor="let a of assets">
-      <b>Tag ID:</b> {{a.assetTagId}}, <b>Asset Type:</b> {{a.assetType}}, <b>Description:</b> {{a.description}}, <b>Date Added:</b> {{a.dateAdded.toLocaleString()}}, <b>Assigned To:</b> {{a.assignedTo}}, <b>retired:</b> {{a.retired}}
-    </li>
-  </ul>
-</div>
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
