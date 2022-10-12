@@ -11,7 +11,9 @@
       <td>{{ asset.assetType }}</td>
       <td>{{ asset.description }}</td>
       <td>{{ asset.dateAdded.toLocaleString() }}</td>
-      <td><a [routerLink]="['/assets/user/', asset.assignedTo]">{{ asset.assignedTo }}</a></td>
+      <td>
+        <a *ngIf="asset.assignedTo" [routerLink]="['/assets/user/', asset.assignedTo]">{{ asset.assignedTo }}</a>
+      </td>
       <td>{{ asset.retired ? "True" : "False" }}</td>
       <td *ngIf="asset.dateRetired; else elseBlock">{{ asset.dateRetired.toLocaleString() }}</td>
       <ng-template #elseBlock><td></td></ng-template>
