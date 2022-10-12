@@ -1,7 +1,7 @@
 import { Asset } from '@/models/asset';
 import { AssetService } from '@/services/asset.service';
 import { LogService } from '@/services/log.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,13 +10,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./asset-details.component.css']
 })
 export class AssetDetailsComponent implements OnInit {
-  @Input() user: string;
+  user: string;
   asset: Asset;
 
   constructor(private assetService: AssetService, private logService: LogService, private route: ActivatedRoute){}
 
   ngOnInit(){
-    this.route.params.subscribe(params => this.user = params["user"]);
+    this.route.params.subscribe(params => this.user = params["id"]);
     this.logService.info("Loading asset details.", {
       user: this.user
     });
@@ -28,6 +28,10 @@ export class AssetDetailsComponent implements OnInit {
   }
 
   getRetiredString(){
-    return this.asset.retired ? "True" : "False";
+    if(this.asset){
+      return this.asset.retired ? "True" : "False";
+    }
+
+    return "";
   }
 }
