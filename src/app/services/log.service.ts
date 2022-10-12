@@ -30,7 +30,7 @@ export class LogService {
   private logMessage(message: string, level: LogLevel, params: any){
     for(let provider of this.logProviders){
       let logEntry: LogEntry = new LogEntry(message, level, params);
-      provider.log(logEntry).subscribe(response => response ? console.log("Log success!") : console.log("Log failure."));
+      provider.log(logEntry).subscribe(response => response);
     }
   }
 }
@@ -63,7 +63,7 @@ export class LogEntry{
     logMessage += ` - ${this.message}`;
 
     if(this.params.length){
-      logMessage += ` - Parameters: ${this.params.join(", ")}`;
+      logMessage += ` - Parameters: ${this.params.map(param => JSON.stringify(param)).join(", ")}`;
     }
 
     return logMessage;

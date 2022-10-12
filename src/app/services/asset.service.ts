@@ -12,8 +12,12 @@ export class AssetService {
 
   constructor(private http: HttpClient) {}
 
-  public createAsset(asset : Asset) : Observable<Asset> {
+  public createAsset(asset: Asset) : Observable<Asset> {
     return this.http.post<Asset>(`${environment.api_url}/assets`, asset);
+  }
+
+  public getNextAssetId(): Observable<number>{
+    return this.http.get<number>(`${environment.api_url}/assets/nextId`);
   }
 
   public getAssets(params?: object) : Observable<Asset[]> {
