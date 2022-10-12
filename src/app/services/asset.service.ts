@@ -14,26 +14,30 @@ export class AssetService{
     return this.http.get<number>(`${environment.api_url}/assets/nextId`);
   }
 
-  public getAssets(params?: object) : Observable<Asset[]> {
+  public getAssets(params?: object): Observable<Asset[]> {
     return this.http.get<Asset[]>(`${environment.api_url}/assets`,{
       params: (params as HttpParams)
     });
   }
 
-  public getAssetsByUser(user: string) : Observable<Asset[]>{
+  public getAssetsByUser(user: string): Observable<Asset[]>{
     const params = new HttpParams().set("assignedTo", user)
     return this.getAssets(params);
   }
 
-  public getAssetDetails(assetTagId: string) : Observable<Asset>{
+  public getAssetDetails(assetTagId: number): Observable<Asset>{
     return this.http.get<Asset>(`${environment.api_url}/assets/${assetTagId}`);
   }
 
-  public createAsset(asset: Asset) : Observable<Asset>{
+  public createAsset(asset: Asset): Observable<Asset>{
     return this.http.post<Asset>(`${environment.api_url}/assets`, asset);
   }
 
-  public retireAsset(assetTagId: number, retire: boolean) : Observable<Asset>{
+  public updateAsset(asset: Asset): Observable<Asset>{
+    return this.http.put<Asset>(`${environment.api_url}/assets/${asset.assetTagId}`, asset);
+  }
+
+  public retireAsset(assetTagId: number, retire: boolean): Observable<Asset>{
     if(retire){
       return this.http.delete<Asset>(`${environment.api_url}/assets/${assetTagId}/retire`);
     }

@@ -1,1 +1,62 @@
-<p>update-asset works!</p>
+<h1 class="text-center">Update Asset</h1>
+
+<form class="mt-2 ml-2" (ngSubmit)="updateAsset()" #assetForm="ngForm">
+    <div class="form-group row mb-3">
+        <label for="assetTagId" class="col-sm-2 col-form-label"><b>Tag ID</b><sup title="Required">*</sup></label>
+        <input type="text" class="form-control-plaintext col-sm-1" id="assetTagId" 
+                value="{{ asset?.assetTagId }}" readonly required />
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="assetType" class="col-sm-2 col-form-label"><b>Asset Type</b><sup title="Required">*</sup></label>
+        <select id="assetType" class="custom-select mr-sm-2 col-sm-2" 
+                value="{{ asset?.assetType }}" disabled required>
+            <option>Desktop</option>
+            <option>Laptop</option>
+            <option>Display</option>
+            <option>Phone</option>
+            <option>External Hard Drive</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="description" class="col-sm-2 col-form-label"><b>Description</b><sup title="Required">*</sup></label>
+        <input name="description" type="text" class="form-control col-sm-4" id="description" 
+                [(ngModel)]="asset.description" placeholder="Provide a description of the asset here" 
+                #description="ngModel" required />
+
+        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="ml-2 alert alert-danger col-sm-2">
+            <div *ngIf="description.errors?.required">Description is required!</div>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="dateAdded" class="col-sm-2 col-form-label"><b>Date Added</b><sup title="Required">*</sup></label>
+        <input type="text" class="form-control-plaintext col-sm-3" id="dateAdded" 
+            value="{{ asset?.dateAdded.toLocaleDateString() }}" readonly />
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="assignedTo" class="col-sm-2 col-form-label"><b>Assigned To</b></label>
+        <input name="assignedTo" type="text" class="form-control col-sm-3" id="assignedTo" [(ngModel)]="asset.assignedTo"
+                placeholder="What user is the asset assigned to? (optional)" />
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="retired" class="col-sm-2 col-form-label"><b>Retired</b><sup title="Required">*</sup></label>
+        <input type="text" class="form-control-plaintext col-sm-1" id="retired" 
+                value="{{ getRetiredString() }}" readonly required />
+    </div>
+
+    <div class="form-group row mb-3" *ngIf="asset?.retired && asset?.dateRetired">
+        <label for="dateRetired" class="col-sm-2 col-form-label"><b>Date Retired</b></label>
+        <input type="text" class="form-control-plaintext col-sm-3" id="dateRetired" 
+            value="{{ asset?.dateRetired.toLocaleDateString() }}" readonly />
+    </div>
+
+    <small id="requiredFieldNote" class="form-text text-muted mb-3">An asterisk (*) indicates a required field.</small>
+    
+    <button type="submit" class="btn btn-success mr-sm-2" [disabled]="!assetForm.form.valid">Update</button>
+    <button type="button" class="btn btn-danger mr-sm-2" (click)="cancel()">Cancel</button>
+</form>

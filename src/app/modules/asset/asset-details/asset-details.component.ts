@@ -10,18 +10,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./asset-details.component.css']
 })
 export class AssetDetailsComponent implements OnInit {
-  user: string;
+  assetTagId: number;
   asset: Asset;
 
   constructor(private assetService: AssetService, private logService: LogService, private route: ActivatedRoute){}
 
   ngOnInit(){
-    this.route.params.subscribe(params => this.user = params["id"]);
+    this.route.params.subscribe(params => this.assetTagId = params["id"]);
     this.logService.info("Loading asset details.", {
-      user: this.user
+      assetTagId: this.assetTagId
     });
 
-    this.assetService.getAssetDetails(this.user).subscribe(asset => this.asset = asset);
+    this.assetService.getAssetDetails(this.assetTagId).subscribe(asset => this.asset = asset);
     this.logService.info("Loaded asset details.", {
       asset: this.asset
     });

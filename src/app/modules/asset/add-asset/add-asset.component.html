@@ -2,13 +2,13 @@
 
 <form class="mt-2 ml-2" (ngSubmit)="addAsset()" #assetForm="ngForm">
     <div class="form-group row mb-3">
-        <label for="assetTagId" class="col-sm-2 col-form-label">Tag ID<sup title="Required">*</sup></label>
+        <label for="assetTagId" class="col-sm-2 col-form-label"><b>Tag ID</b><sup title="Required">*</sup></label>
         <input type="text" class="form-control-plaintext col-sm-1" id="assetTagId" 
-                value="{{ asset.assetTagId }}" readonly required />
+                value="{{ asset?.assetTagId }}" readonly required />
     </div>
 
     <div class="form-group row mb-3">
-        <label for="assetType" class="col-sm-2 col-form-label">Asset Type<sup title="Required">*</sup></label>
+        <label for="assetType" class="col-sm-2 col-form-label"><b>Asset Type</b><sup title="Required">*</sup></label>
         <select name="assetType" id="assetType" class="custom-select mr-sm-2 col-sm-2" 
                 [(ngModel)]="asset.assetType" required #assetType="ngModel">
             <option>Desktop</option>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label for="description" class="col-sm-2 col-form-label">Description<sup title="Required">*</sup></label>
+        <label for="description" class="col-sm-2 col-form-label"><b>Description</b><sup title="Required">*</sup></label>
         <input name="description" type="text" class="form-control col-sm-4" id="description" 
                 [(ngModel)]="asset.description" placeholder="Provide a description of the asset here" 
                 #description="ngModel" required />
@@ -36,7 +36,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label for="assignedTo" class="col-sm-2 col-form-label">Assigned To</label>
+        <label for="assignedTo" class="col-sm-2 col-form-label"><b>Assigned To</b></label>
         <input name="assignedTo" type="text" class="form-control col-sm-3" id="assignedTo" [(ngModel)]="asset.assignedTo"
                 placeholder="What user is the asset assigned to? (optional)" />
     </div>
