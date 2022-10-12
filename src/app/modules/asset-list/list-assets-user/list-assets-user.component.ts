@@ -26,11 +26,14 @@ export class ListAssetsUserComponent implements OnInit {
     });
   }
 
-  public getAssets(params?: object, callback?: Function){
+  public getAssets(params?: object, callback?: () => void){
     this.assetService.getAssets(params).subscribe(data => {
       this.assets = data;
       this.logService.success("Successfully loaded assets.");
-      callback();
+      
+      if(callback){
+        callback();
+      }
     });
   }
 

@@ -147,7 +147,7 @@ export class MockBackendInterceptor implements HttpInterceptor {
             return notFound(`Asset does not exist!`);
           }
           asset.retired = retire;
-          asset.dateRetired = new Date();
+          asset.dateRetired = (retire) ? new Date() : null;
           updateAssetInLocalStorage(asset);
           return noContent();
         }

@@ -1,1 +1,19 @@
-<p>retire-asset works!</p>
+<div class="ml-2">
+    <h1 class="text-center">
+        <span *ngIf="!retired; else headerRetired">Retire</span>
+        <ng-template #headerRetired><span>Unretire</span></ng-template> 
+        Asset
+    </h1>
+
+    <p>Are you sure that you want to 
+        <span *ngIf="!retired; else paraRetired">retire</span>
+        <ng-template #paraRetired><span>unretire</span></ng-template>
+        <span class="text-danger"> asset {{ assetTagId }}</span>?
+    </p>
+
+    <button *ngIf="!retired; else btnUnretire" type="button" class="btn btn-danger mr-sm-2" (click)="retireAsset()">Retire</button>
+    <ng-template #btnUnretire>
+        <button type="button" class="btn btn-danger mr-sm-2" (click)="retireAsset()">Unretire</button>
+    </ng-template>
+    <button type="button" class="btn btn-success mr-sm-2" (click)="cancel()">Cancel</button>
+</div>

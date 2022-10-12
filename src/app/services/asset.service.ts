@@ -10,10 +10,6 @@ import { Asset } from '../models/asset'
 export class AssetService{
   constructor(private http: HttpClient){}
 
-  public createAsset(asset: Asset) : Observable<Asset>{
-    return this.http.post<Asset>(`${environment.api_url}/assets`, asset);
-  }
-
   public getNextAssetId(): Observable<number>{
     return this.http.get<number>(`${environment.api_url}/assets/nextId`);
   }
@@ -29,7 +25,21 @@ export class AssetService{
     return this.getAssets(params);
   }
 
-  public getAssetDetails(user: string) : Observable<Asset>{
-    return this.http.get<Asset>(`${environment.api_url}/assets/${user}`);
+  public getAssetDetails(assetTagId: string) : Observable<Asset>{
+    return this.http.get<Asset>(`${environment.api_url}/assets/${assetTagId}`);
+  }
+
+  public createAsset(asset: Asset) : Observable<Asset>{
+    return this.http.post<Asset>(`${environment.api_url}/assets`, asset);
+  }
+
+  public retireAsset(assetTagId: number, retire: boolean) : Observable<Asset>{
+    if(retire){
+      return this.http.delete<Asset>(`${environment.api_url}/assets/${assetTagId}/retire`);
+    }
+
+    else{
+      return this.http.put<Asset>(`${environment.api_url}/assets/${assetTagId}/retire`, assetTagId);
+    }
   }
 }

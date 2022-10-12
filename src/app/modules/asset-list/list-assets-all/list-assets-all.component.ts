@@ -18,12 +18,15 @@ export class ListAssetsAllComponent implements OnInit {
     this.getAssets();
   }
 
-  public getAssets(params?: object, callback?: Function){
+  public getAssets(params?: object, callback?: () => void){
     this.assetService.getAssets(params).subscribe(data => {
-      //this.assets = data.filter(asset => !asset.retired); - Uncomment this line to filter all assets to only active (non-retired) ones
       this.assets = data;
+      //this.assets = data.filter(asset => !asset.retired); - Uncomment this line to filter all assets to only active (non-retired) ones
       this.logService.success("Successfully loaded assets.");
-      callback();
+      
+      if(callback){
+        callback();
+      }
     });
   }
 

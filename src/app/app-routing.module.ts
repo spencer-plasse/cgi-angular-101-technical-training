@@ -11,9 +11,9 @@ const routes: Routes = [
   { path: "assets/all", component: ListAssetsAllComponent },
   { path: "assets/user/:user", component: ListAssetsUserComponent },
   { path: "asset/add", component: AddAssetComponent },
-  { path: "asset/details/:user", component: AssetDetailsComponent },
-  { path: "asset/update/:user", component: UpdateAssetComponent },
-  { path: "asset/retire/:user", component: RetireAssetComponent},
+  { path: "asset/details/:id", component: AssetDetailsComponent },
+  { path: "asset/update/:id", component: UpdateAssetComponent },
+  { path: "asset/retire/:id", component: RetireAssetComponent},
   { path: "**", component: ListAssetsAllComponent }
 ];
 
