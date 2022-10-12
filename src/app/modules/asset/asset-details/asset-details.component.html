@@ -1,0 +1,57 @@
+<h1 class="text-center">Asset Details</h1>
+
+<form class="mt-2 ml-2">
+    <div class="form-group row mb-3">
+        <label for="assetTagId" class="col-sm-2 col-form-label"><b>Tag ID</b></label>
+        <input type="text" class="form-control-plaintext col-sm-1" id="assetTagId" 
+                value="{{ asset?.assetTagId }}" readonly required />
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="assetType" class="col-sm-2 col-form-label"><b>Asset Type</b></label>
+        <input type="text" class="form-control-plaintext col-sm-2" id="assetType" 
+            value="{{ asset?.assetType }}" readonly />
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="description" class="col-sm-2 col-form-label"><b>Description</b></label>
+        <input type="text" class="form-control-plaintext col-sm-4" id="description" 
+                value="{{ asset?.description }}" readonly />
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="dateAdded" class="col-sm-2 col-form-label"><b>Date Added</b></label>
+        <input type="text" class="form-control-plaintext col-sm-3" id="dateAdded" 
+            value="{{ asset?.dateAdded.toLocaleDateString() }}" readonly />
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="assignedTo" class="col-sm-2 col-form-label"><b>Assigned To</b></label>
+        <a *ngIf="asset?.assignedTo" [routerLink]="['/assets/user/', asset?.assignedTo]">
+            <input type="text" class="form-control-plaintext col-sm-3 btn-link text-decoration-none" id="assignedTo" 
+                value="{{ asset?.assignedTo }}" readonly />
+        </a>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="retired" class="col-sm-2 col-form-label"><b>Retired?</b></label>
+        <input type="text" class="form-control-plaintext col-sm-3" id="retired" 
+            value="{{ getRetiredString() }}" readonly />
+    </div>
+
+    <div class="form-group row mb-3" *ngIf="asset?.retired">
+        <label for="dateRetired" class="col-sm-2 col-form-label"><b>Date Retired</b></label>
+        <input type="text" class="form-control-plaintext col-sm-3" id="dateRetired" 
+            value="{{ asset?.dateRetired.toLocaleDateString() }}" readonly />
+    </div>
+
+    <a class="btn btn-success text-light mr-2" [routerLink]="['/asset', 'update', asset?.assetTagId]"
+        *ngIf="asset">Update Asset</a>
+        
+    <a class="btn btn-danger text-light" [routerLink]="['/asset', 'retire', asset?.assetTagId]"
+            [queryParams]="{retired: asset?.retired}" *ngIf="asset">
+        <span *ngIf="asset && !asset?.retired; else linkRetired">Retire</span>
+        <ng-template #linkRetired><span>Unretire</span></ng-template> 
+         Asset
+    </a>
+</form>

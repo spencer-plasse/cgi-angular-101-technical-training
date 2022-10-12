@@ -41,6 +41,8 @@ export class MockBackendInterceptor implements HttpInterceptor {
                     return getAssetsList();
                 case url.endsWith('/assets') && method === 'POST':
                     return addAsset();
+                case url.endsWith('/assets/nextId') && method == 'GET':
+                    return getNextAssetId();
                 case url.match(/\/assets\/\d+$/) && method === 'GET':
                     return getAssetById();
                 case url.match(/\/assets\/\d+$/) && method === 'PUT':
@@ -98,6 +100,10 @@ export class MockBackendInterceptor implements HttpInterceptor {
             return notFound("Asset does not exist!");
         }
 
+        function getNextAssetId(){
+          return ok(parseInt(localStorage.getItem('assetIdentity') || '1'));
+        }
+
         function addAsset() {
             let assetIdentity = localStorage.getItem('assetIdentity') || '1';
             let assetDto = createAssetFromObject(parseBody());
@@ -113,6 +119,8 @@ export class MockBackendInterceptor implements HttpInterceptor {
             // stringify and parse for consistant JSON date format
             newAsset = JSON.parse(JSON.stringify(newAsset), dateTimeReviver); 
             assets.push(newAsset);
+
+            console.log(JSON.stringify(newAsset));
 
             localStorage.setItem('assets', JSON.stringify(assets));
             localStorage.setItem('assetIdentity', (parseInt(assetIdentity) + 1).toString());
@@ -139,7 +147,7 @@ export class MockBackendInterceptor implements HttpInterceptor {
             return notFound(`Asset does not exist!`);
           }
           asset.retired = retire;
-          asset.dateRetired = new Date();
+          asset.dateRetired = (retire) ? new Date() : null;
           updateAssetInLocalStorage(asset);
           return noContent();
         }
