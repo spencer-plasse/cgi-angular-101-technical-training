@@ -37,9 +37,18 @@ export class ListAssetsAllComponent implements OnInit {
         value: event.value
       });
 
-      if(event.attribute === "dateAdded" || event.attribute === "dateRetired"){
+      if(event.attribute === "dateAdded"){
         this.getAssets(null, () => {
           this.assets = this.assets.filter(asset => asset[event.attribute].toISOString().split('T')[0] === event.value)
+        });
+
+        return;
+      }
+
+      else if(event.attribute === "dateRetired"){
+        this.getAssets(null, () => {
+          this.assets = this.assets.filter(asset => asset.retired && asset.dateRetired)
+                                    .filter(asset => asset[event.attribute].toISOString().split('T')[0] === event.value);
         });
 
         return;
