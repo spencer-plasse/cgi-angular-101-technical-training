@@ -22,7 +22,7 @@
     <div class="form-group row mb-3">
         <label for="dateAdded" class="col-sm-2 col-form-label"><b>Date Added</b></label>
         <input type="text" class="form-control-plaintext col-sm-3" id="dateAdded" 
-            value="{{ asset?.dateAdded.toLocaleDateString() }}" readonly />
+            value="{{ asset?.dateAdded?.toLocaleDateString() }}" readonly />
     </div>
 
     <div class="form-group row mb-3">
@@ -42,7 +42,7 @@
     <div class="form-group row mb-3" *ngIf="asset?.retired">
         <label for="dateRetired" class="col-sm-2 col-form-label"><b>Date Retired</b></label>
         <input type="text" class="form-control-plaintext col-sm-3" id="dateRetired" 
-            value="{{ asset?.dateRetired.toLocaleDateString() }}" readonly />
+            value="{{ asset?.dateRetired?.toLocaleDateString() }}" readonly />
     </div>
 
     <a class="btn btn-success text-light mr-2" [routerLink]="['/asset', 'update', asset?.assetTagId]"

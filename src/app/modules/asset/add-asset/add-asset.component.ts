@@ -16,13 +16,27 @@ export class AddAssetComponent{
     assetService.getNextAssetId().subscribe(id => this.asset.assetTagId = id);
   }
 
-  addAsset(){
-    this.assetService.createAsset(this.asset).subscribe(asset => this.asset = asset);
-    this.logService.success("Successfully created a new asset!", this.asset);
-    this.router.navigate(["/asset", "details", this.asset.assetTagId]);
+  addAsset(): void{
+    this.assetService.createAsset(this.asset)
+                     .subscribe((asset) => this.asset = asset,
+                                (error) => this.handleError(
+                                  `Could not create an asset! Redirecting to list of all assets...`,
+                                  `Could not create an asset.`
+                                ),
+                                () => {
+                                  this.logService.success("Successfully created a new asset!", this.asset);
+                                  this.router.navigate(["/asset", "details", this.asset.assetTagId]);
+                                });
+    
   }
 
-  cancel(){
+  cancel(): void{
     this.router.navigate(["/assets", "all"]);
+  }
+
+  handleError(userMessage: string, logMessage: string, routePath: any[] = ["/assets", "all"]): void{
+    alert(userMessage);
+    this.logService.error(logMessage);
+    this.router.navigate(routePath);
   }
 }

@@ -17,6 +17,8 @@ function dateTimeReviver(key: string, value: any) {
 let assets = JSON.parse(localStorage.getItem('assets'), dateTimeReviver) || [];
 let errors = JSON.parse(localStorage.getItem('errors')) || [];
 
+let assetTypes = ["Desktop", "Laptop", "Display", "Phone", "External Hard Drive", "Other"];
+
 // This is a http intercepter that fakes an Assets RESTful API. It intercepts http requests 
 // and responds with http responses with asset data.
 // It fakes a data store by storing assets as a JSON string in browser local storage.
@@ -108,11 +110,19 @@ export class MockBackendInterceptor implements HttpInterceptor {
             let assetIdentity = localStorage.getItem('assetIdentity') || '1';
             let assetDto = createAssetFromObject(parseBody());
 
+            if(!assetDto.assetType || !assetDto.description){
+              return error("assetType and description are required attributes to create an asset.");
+            }
+
+            else if(assetTypes.indexOf(assetDto.assetType) === -1){
+              return error("assetType must be one of the following: Desktop, Laptop, Display, Phone, External Hard Drive, or Other.");
+            }
+
             let newAsset = new Asset();
             newAsset.assetTagId = parseInt(assetIdentity); // set tag id, overwrite any already set value
             newAsset.dateAdded = new Date();
-            newAsset.assetType = assetDto.assetType || null;
-            newAsset.description = assetDto.description || null;
+            newAsset.assetType = assetDto.assetType;
+            newAsset.description = assetDto.description;
             newAsset.assignedTo = assetDto.assignedTo || null;
             newAsset.retired = false;
             newAsset.dateRetired = null;
@@ -130,11 +140,15 @@ export class MockBackendInterceptor implements HttpInterceptor {
 
         function updateAsset(assetDto : any) {
            let asset = assets.find(x => x.assetTagId == idFromUrl());
-           if(asset == undefined){
-             return addAsset();
+           /*if(asset == undefined){
+             return addAsset(); // Don't understand the purpose of this?
+           }*/
+
+           if(!assetDto.description){
+            return error("description is a required attribute for an asset.");
            }
-           //asset.assetType = newAsset.assetType || null; // training project specifies this cannot be changed once set
-           asset.description = assetDto.description || null;
+
+           asset.description = assetDto.description;
            asset.assignedTo = assetDto.assignedTo || null;
 
            updateAssetInLocalStorage(asset);
@@ -146,8 +160,8 @@ export class MockBackendInterceptor implements HttpInterceptor {
           if(asset == undefined){
             return notFound(`Asset does not exist!`);
           }
+          asset.dateRetired = (retire && asset.dateRetired === null) ? new Date() : null;
           asset.retired = retire;
-          asset.dateRetired = (retire) ? new Date() : null;
           updateAssetInLocalStorage(asset);
           return noContent();
         }
