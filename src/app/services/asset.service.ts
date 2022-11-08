@@ -38,10 +38,12 @@ export class AssetService{
   }
 
   public retireAsset(assetTagId: number, retire: boolean): Observable<Asset>{
+    // Retire an asset
     if(retire){
       return this.http.delete<Asset>(`${environment.api_url}/assets/${assetTagId}/retire`);
     }
 
+    // "Unretire" an asset
     else{
       return this.http.put<Asset>(`${environment.api_url}/assets/${assetTagId}/retire`, assetTagId);
     }

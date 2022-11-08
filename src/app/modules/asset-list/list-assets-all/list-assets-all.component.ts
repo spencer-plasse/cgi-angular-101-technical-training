@@ -37,6 +37,7 @@ export class ListAssetsAllComponent implements OnInit {
         value: event.value
       });
 
+      // Adds a callback to properly format dateAdded
       if(event.attribute === "dateAdded"){
         this.getAssets(null, () => {
           this.assets = this.assets.filter(asset => asset[event.attribute].toISOString().split('T')[0] === event.value)
@@ -45,6 +46,7 @@ export class ListAssetsAllComponent implements OnInit {
         return;
       }
 
+      // Adds a callback to properly format dateRetired if it should be set
       else if(event.attribute === "dateRetired"){
         this.getAssets(null, () => {
           this.assets = this.assets.filter(asset => asset.retired && asset.dateRetired)

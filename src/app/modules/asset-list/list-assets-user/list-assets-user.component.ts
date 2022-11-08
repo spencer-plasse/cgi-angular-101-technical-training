@@ -51,6 +51,7 @@ export class ListAssetsUserComponent implements OnInit {
         value: event.value
       });
 
+      // Adds a callback to format dateAdded and/or dateRetired
       if(event.attribute === "dateAdded" || event.attribute === "dateRetired"){
         this.getAssets({
           "assignedTo": this.user

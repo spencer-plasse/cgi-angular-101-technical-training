@@ -17,16 +17,16 @@ export class AddAssetComponent{
   }
 
   addAsset(): void{
+    // Create a new asset with the user input. 
+    // If there is an error, notify the user, log it, and redirect to the list of all assets.
+    // If successful, log success and redirect to the asset's detail page.
     this.assetService.createAsset(this.asset)
                      .subscribe((asset) => this.asset = asset,
                                 (error) => this.handleError(
                                   `Could not create an asset! Redirecting to list of all assets...`,
                                   `Could not create an asset.`
                                 ),
-                                () => {
-                                  this.logService.success("Successfully created a new asset!", this.asset);
-                                  this.router.navigate(["/asset", "details", this.asset.assetTagId]);
-                                });
+                                () => this.handleSuccess());
     
   }
 
@@ -38,5 +38,10 @@ export class AddAssetComponent{
     alert(userMessage);
     this.logService.error(logMessage);
     this.router.navigate(routePath);
+  }
+
+  handleSuccess(): void{
+    this.logService.success("Successfully created a new asset!", this.asset);
+    this.router.navigate(["/asset", "details", this.asset.assetTagId]);
   }
 }
