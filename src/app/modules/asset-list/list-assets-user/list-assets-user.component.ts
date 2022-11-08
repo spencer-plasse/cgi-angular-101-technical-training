@@ -2,7 +2,7 @@ import { Asset } from '@/models/asset';
 import { AssetService } from '@/services/asset.service';
 import { LogService } from '@/services/log.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'list-assets-user',
@@ -13,7 +13,8 @@ export class ListAssetsUserComponent implements OnInit {
   @Input() user: string;
   assets: Asset[];
 
-  constructor(private assetService: AssetService, private logService: LogService, private route: ActivatedRoute){}
+  constructor(private assetService: AssetService, private logService: LogService, private router: Router, 
+              private route: ActivatedRoute){}
 
   ngOnInit(){
     this.route.params.subscribe(params => this.user = params["user"]);
@@ -23,6 +24,12 @@ export class ListAssetsUserComponent implements OnInit {
 
     this.getAssets({
       assignedTo: this.user
+    }, () => {
+      if(this.assets.length === 0){
+        alert(`No assets are assigned to user ${this.user} or user ${this.user} does not exist! Redirecting to list of all assets...`);
+        this.logService.error(`Could not load assets for user ${this.user}. User either does not have assigned assets or does not exist.`);
+        this.router.navigate(["/assets", "all"]);
+      }
     });
   }
 

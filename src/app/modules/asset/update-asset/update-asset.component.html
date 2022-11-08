@@ -4,13 +4,17 @@
     <div class="form-group row mb-3">
         <label for="assetTagId" class="col-sm-2 col-form-label"><b>Tag ID</b><sup title="Required">*</sup></label>
         <input type="text" class="form-control-plaintext col-sm-1" id="assetTagId" 
-                value="{{ asset?.assetTagId }}" readonly required />
+                #tagId value="{{ asset?.assetTagId }}" readonly required />
+
+        <div *ngIf="tagId.invalid" class="ml-2 alert alert-danger col-sm-2">
+            <div *ngIf="tagId.errors?.required">Tag ID is required!</div>
+        </div>
     </div>
 
     <div class="form-group row mb-3">
         <label for="assetType" class="col-sm-2 col-form-label"><b>Asset Type</b><sup title="Required">*</sup></label>
         <select id="assetType" class="custom-select mr-sm-2 col-sm-2" 
-                value="{{ asset?.assetType }}" disabled required>
+                #assetType value="{{ asset?.assetType }}" disabled required>
             <option>Desktop</option>
             <option>Laptop</option>
             <option>Display</option>
@@ -18,6 +22,10 @@
             <option>External Hard Drive</option>
             <option>Other</option>
         </select>
+
+        <div *ngIf="assetType.invalid" class="ml-2 alert alert-danger col-sm-2">
+            <div *ngIf="assetType.errors?.required">Asset Type is required!</div>
+        </div>
     </div>
 
     <div class="form-group row mb-3">
@@ -34,7 +42,11 @@
     <div class="form-group row mb-3">
         <label for="dateAdded" class="col-sm-2 col-form-label"><b>Date Added</b><sup title="Required">*</sup></label>
         <input type="text" class="form-control-plaintext col-sm-3" id="dateAdded" 
-            value="{{ asset?.dateAdded.toLocaleDateString() }}" readonly />
+            #dateAdded value="{{ asset?.dateAdded?.toLocaleDateString() }}" readonly required />
+
+        <div *ngIf="dateAdded.invalid" class="ml-2 alert alert-danger col-sm-2">
+            <div *ngIf="dateAdded.errors?.required">Date Added is required!</div>
+        </div>
     </div>
 
     <div class="form-group row mb-3">
@@ -46,13 +58,21 @@
     <div class="form-group row mb-3">
         <label for="retired" class="col-sm-2 col-form-label"><b>Retired</b><sup title="Required">*</sup></label>
         <input type="text" class="form-control-plaintext col-sm-1" id="retired" 
-                value="{{ getRetiredString() }}" readonly required />
+                #retired value="{{ getRetiredString() }}" readonly required />
+
+        <div *ngIf="retired.invalid" class="ml-2 alert alert-danger col-sm-2">
+            <div *ngIf="retired.errors?.required">Retired is required!</div>
+        </div>
     </div>
 
     <div class="form-group row mb-3" *ngIf="asset?.retired && asset?.dateRetired">
         <label for="dateRetired" class="col-sm-2 col-form-label"><b>Date Retired</b></label>
         <input type="text" class="form-control-plaintext col-sm-3" id="dateRetired" 
-            value="{{ asset?.dateRetired.toLocaleDateString() }}" readonly />
+            #dateRetired value="{{ asset?.dateRetired?.toLocaleDateString() }}" readonly />
+
+        <div *ngIf="dateRetired.invalid" class="ml-2 alert alert-danger col-sm-2">
+            <div *ngIf="dateRetired.errors?.required">Date Retired is required!</div>
+        </div>
     </div>
 
     <small id="requiredFieldNote" class="form-text text-muted mb-3">An asterisk (*) indicates a required field.</small>
