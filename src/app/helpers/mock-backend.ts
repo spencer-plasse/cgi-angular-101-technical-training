@@ -110,10 +110,12 @@ export class MockBackendInterceptor implements HttpInterceptor {
             let assetIdentity = localStorage.getItem('assetIdentity') || '1';
             let assetDto = createAssetFromObject(parseBody());
 
+            // Validate that an asset type and description were provided. This is a safeguard against direct invalid API calls.
             if(!assetDto.assetType || !assetDto.description){
               return error("assetType and description are required attributes to create an asset.");
             }
 
+            // Validate that the asset type is in the list of valid asset types. This is a safeguard against direct invalid API calls.
             else if(assetTypes.indexOf(assetDto.assetType) === -1){
               return error("assetType must be one of the following: Desktop, Laptop, Display, Phone, External Hard Drive, or Other.");
             }
@@ -144,6 +146,7 @@ export class MockBackendInterceptor implements HttpInterceptor {
              return addAsset(); // Don't understand the purpose of this?
            }*/
 
+           // Validate that a description was provided. This is a safeguard against direct invalid API calls.
            if(!assetDto.description){
             return error("description is a required attribute for an asset.");
            }
@@ -160,6 +163,9 @@ export class MockBackendInterceptor implements HttpInterceptor {
           if(asset == undefined){
             return notFound(`Asset does not exist!`);
           }
+
+          // Only set dateRetired if the asset is being retired and doesn't have a date set. 
+          // This is a safeguard against direct invalid API calls (attempting to retire a currently retired asset).
           asset.dateRetired = (retire && asset.dateRetired === null) ? new Date() : null;
           asset.retired = retire;
           updateAssetInLocalStorage(asset);

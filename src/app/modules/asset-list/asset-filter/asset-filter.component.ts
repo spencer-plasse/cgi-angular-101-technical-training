@@ -35,7 +35,9 @@ export class AssetFilterComponent{
       if(["assetTagId", "assetType", "description", "dateAdded", "assignedTo", "retired", "dateRetired"].indexOf(this.attribute) >= 0){
         // Validate that a value was selected/provided
         if(this.value !== "" && this.value !== null && this.value !== undefined){
+          // Validate that values are valid depending on the selected attribute
           switch(this.attribute){
+            // assetTagId must exist on an asset
             case "assetTagId":
               if(this.assets.map(asset => asset.assetTagId).indexOf(parseInt(this.value)) === -1){
                 this.handleError(`Cannot filter due to invalid value for Tag ID: ${this.value}!`);
@@ -43,6 +45,7 @@ export class AssetFilterComponent{
 
               break;
 
+            // assetType must be in the list of valid asset types
             case "assetType":
               if(["Desktop", "Laptop", "Display", "Phone", "External Hard Drive", "Other"].indexOf(this.value) === -1){
                 this.handleError(`Cannot filter due to invalid value for Asset Type: ${this.value}!`);
@@ -50,6 +53,7 @@ export class AssetFilterComponent{
 
               break;
 
+            // assignedTo must already exist on an asset
             case "assignedTo":
               if(this.userList.indexOf(this.value) === -1){
                 this.handleError(`Cannot filter due to invalid value for Assigned To: ${this.value}!`);
@@ -57,6 +61,7 @@ export class AssetFilterComponent{
 
               break;
 
+            // retired must be "True" or "False"
             case "retired":
               if(["True", "False"].indexOf(this.value) === -1){
                 this.handleError(`Cannot filter due to invalid value for Retired: ${this.value}!`);
